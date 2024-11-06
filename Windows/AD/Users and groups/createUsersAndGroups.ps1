@@ -1,15 +1,15 @@
 # Définir les groupes
-New-ADGroup -Name "Admins" -SamAccountName Admins -GroupCategory Security -GroupScope Global -DisplayName "Administrators" -Path "OU=Groups,OU=T0,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-New-ADGroup -Name "Developers" -SamAccountName Developers -GroupCategory Security -GroupScope Global -DisplayName "Developers" -Path "OU=Groups,OU=T0,DC=devops,DC=forest" -Description "Members of this group are Developers"
-New-ADGroup -Name "Users" -SamAccountName Users -GroupCategory Security -GroupScope Global -DisplayName "Users" -Path "OU=Groups,OU=T0,DC=devops,DC=forest" -Description "Members of this group are Users"
+New-ADGroup -Name "T0 Admins" -SamAccountName Admins -GroupCategory Security -GroupScope Global -DisplayName "Administrators" -Path "OU=Groups,OU=T0,DC=devops,DC=forest" -Description "Members of this group are Administrators"
+New-ADGroup -Name "T0 Developers" -SamAccountName Developers -GroupCategory Security -GroupScope Global -DisplayName "Developers" -Path "OU=Groups,OU=T0,DC=devops,DC=forest" -Description "Members of this group are Developers"
+New-ADGroup -Name "T0 Users" -SamAccountName Users -GroupCategory Security -GroupScope Global -DisplayName "Users" -Path "OU=Groups,OU=T0,DC=devops,DC=forest" -Description "Members of this group are Users"
 
-New-ADGroup -Name "Admins" -SamAccountName Admins -GroupCategory Security -GroupScope Global -DisplayName "Administrators" -Path "OU=Groups,OU=T1,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-New-ADGroup -Name "Developers" -SamAccountName Developers -GroupCategory Security -GroupScope Global -DisplayName "Developers" -Path "OU=Groups,OU=T1,DC=devops,DC=forest" -Description "Members of this group are Developers"
-New-ADGroup -Name "Users" -SamAccountName Users -GroupCategory Security -GroupScope Global -DisplayName "Users" -Path "OU=Groups,OU=T1,DC=devops,DC=forest" -Description "Members of this group are Users"
+New-ADGroup -Name "T1 Admins" -SamAccountName Admins -GroupCategory Security -GroupScope Global -DisplayName "Administrators" -Path "OU=Groups,OU=T1,DC=devops,DC=forest" -Description "Members of this group are Administrators"
+New-ADGroup -Name "T1 Developers" -SamAccountName Developers -GroupCategory Security -GroupScope Global -DisplayName "Developers" -Path "OU=Groups,OU=T1,DC=devops,DC=forest" -Description "Members of this group are Developers"
+New-ADGroup -Name "T1 Users" -SamAccountName Users -GroupCategory Security -GroupScope Global -DisplayName "Users" -Path "OU=Groups,OU=T1,DC=devops,DC=forest" -Description "Members of this group are Users"
 
-New-ADGroup -Name "Admins" -SamAccountName Admins -GroupCategory Security -GroupScope Global -DisplayName "Administrators" -Path "OU=Groups,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-New-ADGroup -Name "Developers" -SamAccountName Developers -GroupCategory Security -GroupScope Global -DisplayName "Developers" -Path "OU=Groups,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest" -Description "Members of this group are Developers"
-New-ADGroup -Name "Users" -SamAccountName Users -GroupCategory Security -GroupScope Global -DisplayName "Users" -Path "OU=Groups,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest" -Description "Members of this group are Users"
+New-ADGroup -Name "T2 Admins" -SamAccountName Admins -GroupCategory Security -GroupScope Global -DisplayName "Administrators" -Path "OU=Groups,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest" -Description "Members of this group are Administrators"
+New-ADGroup -Name "T2 Developers" -SamAccountName Developers -GroupCategory Security -GroupScope Global -DisplayName "Developers" -Path "OU=Groups,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest" -Description "Members of this group are Developers"
+New-ADGroup -Name "T2 Users" -SamAccountName Users -GroupCategory Security -GroupScope Global -DisplayName "Users" -Path "OU=Groups,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest" -Description "Members of this group are Users"
 
 # Créer les utilisateurs pour T0
 $password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
