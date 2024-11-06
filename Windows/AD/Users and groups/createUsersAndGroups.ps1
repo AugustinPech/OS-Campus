@@ -19,8 +19,8 @@ for ($i = 1; $i -le 10; $i++) {
     $role = if ($i -le 2) { "Admin" } elseif ($i -le 5) { "Developer" } else { "User" }
     $userAttributes = @{
         Name = $username
-        GivenName = "FirstName$i"
-        Surname = "LastName$i"
+        GivenName = "FirstName0$i"
+        Surname = "LastName0$i"
         SamAccountName = $username
         UserPrincipalName = "$username@devops.forest"
         Path = "OU=Users,OU=T0,DC=devops,DC=forest"
@@ -51,8 +51,8 @@ for ($i = 1; $i -le 10; $i++) {
     $role = if ($i -le 2) { "Admin" } elseif ($i -le 5) { "Developer" } else { "User" }
     $userAttributes = @{
         Name = $username
-        GivenName = "FirstName$i"
-        Surname = "LastName$i"
+        GivenName = "FirstName0$i"
+        Surname = "LastName0$i"
         SamAccountName = $username
         UserPrincipalName = "$username@devops.forest"
         Path = "OU=Users,OU=T1,DC=devops,DC=forest"
@@ -83,8 +83,8 @@ for ($i = 1; $i -le 10; $i++) {
     $role = if ($i -le 2) { "Admin" } elseif ($i -le 5) { "Developer" } else { "User" }
     $userAttributes = @{
         Name = $username
-        GivenName = "FirstName$i"
-        Surname = "LastName$i"
+        GivenName = "FirstName0$i"
+        Surname = "LastName0$i"
         SamAccountName = $username
         UserPrincipalName = "$username@devops.forest"
         Path = "OU=Users,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest"
