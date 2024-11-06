@@ -1,25 +1,12 @@
-$user1Attributes = @{
-    Name = "User1"
-    Role = "User"
-}
-$devAttributes = @{
-    Name = "Developer"
-    Role = "Developer"
-}
-$adminAttributes = @{
-    Name = "Admin"
-    Role = "Admin"
-}
+# Suppression des utilisateurs et des groupes créés
+function CleanUp {
+    Write-Host "Cleaning up users and groups created in Site1..."
 
-$users= $user1Attributes, $devAttributes , $adminAttributes
-
-# New-ADGroup -Name "Admins" -SamAccountName Admins -GroupCategory Security -GroupScope Global -DisplayName "Administrators" -Path "CN=Users,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-# New-ADGroup -Name "Developers" -SamAccountName Developers -GroupCategory Security -GroupScope Global -DisplayName "Developers" -Path "CN=Users,DC=devops,DC=forest" -Description "Members of this group are Developers"
-# New-ADGroup -Name "Users" -SamAccountName Users -GroupCategory Security -GroupScope Global -DisplayName "Users" -Path "CN=Users,DC=devops,DC=forest" -Description "Members of this group are Users"
-
-foreach ($user in $users) {
-
-    Remove-ADUser -Identity $user.Name -Confirm:$false
+    $list = Get-ADUser -Filter 'Name -like "User*"' -SearchBase "OU=Users,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest"
     
+    # Suppression des utilisateurs
+    foreach ($username in $list) {
+        Remove-ADUser -Identity $username -Confirm:$false
+        Write-Host "User $username has been removed."
+    }
 }
-

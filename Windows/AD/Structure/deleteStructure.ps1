@@ -1,5 +1,5 @@
 $list=Get-ADOrganizationalUnit -Filter 'Name -like "*"'
-$toRemove= "Sites" , "T0" , "T1" , "T2"
+$toRemove= "T0" , "T1" , "T2"
 foreach ($item in $list) {
     if ($toRemove -contains $item.Name) {
         Write-Host "Removing " $item.DistinguishedName
