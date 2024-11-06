@@ -1,9 +1,9 @@
-$list=Get-ADOrganizationalUnit -Filter 'Name -like "*"' | Format-Table Name -A
+$list=Get-ADOrganizationalUnit -Filter 'Name -like "*"'
 $toRemove= "Sites" , "T0" , "T1" , "T2"
 foreach ($item in $list) {
-    if ($toRemove -contains $item) {
-        Write-Host "Removing $item"
-        Set-ADOrganizationalUnit -ProtectedFromAccidentalDeletion $false -Identity $item
-        Remove-ADOrganizationalUnit -Identity $item -Confirm:$false -Recursive
+    if ($toRemove -contains $item.Name) {
+        Write-Host "Removing $item.Name"
+        Set-ADOrganizationalUnit -ProtectedFromAccidentalDeletion $false -Identity $item.Name
+        Remove-ADOrganizationalUnit -Identity $item.Name -Confirm:$false -Recursive
     }
 }
