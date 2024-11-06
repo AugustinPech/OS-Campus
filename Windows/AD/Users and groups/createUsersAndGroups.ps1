@@ -124,5 +124,5 @@ function Set-UserStatus {
 }
 
 # Exemple d'activation ou désactivation
-Set-UserStatus -Username "User3" -Enable $false  # Désactiver User3
-Set-UserStatus -Username "User4" -Enable $true   # Activer User4
+Set-UserStatus -Username "User09" -Enable $false  # Désactiver User3
+Set-UserStatus -Username "User19" -Enable $true   # Activer User4
