@@ -10,3 +10,4 @@ function CleanUp {
         Write-Host "User $username has been removed."
     }
 }
+CleanUp
