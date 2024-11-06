@@ -4,6 +4,6 @@ foreach ($item in $list) {
     if ($toRemove -contains $item) {
         Write-Host "Removing $item"
         Set-ADOrganizationalUnit -ProtectedFromAccidentalDeletion $false -Identity $item
-        Remove-ADOrganizationalUnit -Identity $item -Confirm:$false
+        Remove-ADOrganizationalUnit -Identity $item -Confirm:$false -Recursive
     }
 }
