@@ -39,9 +39,9 @@ foreach ($tier in $tiers) {
 }
 
 foreach ($site in $sites) {
-    New-ADGroup -Name "$site Admins" -SamAccountName "${site}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$site Administrators" -Path "OU=Groups,OU=$site,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-    New-ADGroup -Name "$site Developers" -SamAccountName "${site}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$site Developers" -Path "OU=Groups,OU=$site,DC=devops,DC=forest" -Description "Members of this group are Developers"
-    New-ADGroup -Name "$site Users" -SamAccountName "${site}Users" -GroupCategory Security -GroupScope Global -DisplayName "$site Users" -Path "OU=Groups,OU=$site,DC=devops,DC=forest" -Description "Members of this group are Users"
+    New-ADGroup -Name "$site Admins" -SamAccountName "${site}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$site Administrators" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Administrators"
+    New-ADGroup -Name "$site Developers" -SamAccountName "${site}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$site Developers" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Developers"
+    New-ADGroup -Name "$site Users" -SamAccountName "${site}Users" -GroupCategory Security -GroupScope Global -DisplayName "$site Users" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Users"
     $password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
     # Créer les utilisateurs pour $site
     for ($i = 1; $i -le 10; $i++) {
@@ -54,7 +54,7 @@ foreach ($site in $sites) {
             Surname = "LastName$site$i"
             SamAccountName = $username
             UserPrincipalName = "$username@devops.forest"
-            Path = "OU=Users,OU=$site,DC=devops,DC=forest"
+            Path = "OU=Users,OU=$site,OU=Sites,DC=devops,DC=forest"
             AccountPassword = $password
             Enabled = $true
             PasswordNeverExpires = $false
