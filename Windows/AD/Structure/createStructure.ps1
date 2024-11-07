@@ -1,4 +1,4 @@
-$structure = "T0" , "T1" , "T2"
+$structure = "Sites", "T0" , "T1" , "T2"
 
 $sites = "Site1" , "Site2" , "Site3"
 
@@ -19,16 +19,16 @@ function Create-Organizational-Unit {
 foreach ($item in $structure) {
     Create-Organizational-Unit -name $item
 
-    if ($item -like "T[0-1]") {
+    if ($item -like "T[0-2]") {
         foreach ($directory in $each_tier) {
             Create-Organizational-Unit -name $directory -OU "OU=$item,DC=devops,DC=forest"
         }
-    } elseif ($item -eq "T2") {
-        Create-Organizational-Unit -name "Sites" -OU "OU=$item,DC=devops,DC=forest"
+    } elseif ($item -eq "Sites") {
+        Create-Organizational-Unit -name "Sites" -OU "DC=devops,DC=forest"
         foreach ($site in $sites) {
-            Create-Organizational-Unit -name $site -OU "OU=Sites,OU=$item,DC=devops,DC=forest"
+            Create-Organizational-Unit -name $site -OU "OU=Sites,DC=devops,DC=forest"
             foreach ($element in $each_site) {
-                Create-Organizational-Unit -name $element -OU "OU=$site,OU=Sites,OU=$item,DC=devops,DC=forest"
+                Create-Organizational-Unit -name $element -OU "OU=$site,OU=Sites,DC=devops,DC=forest"
             }
         }
     }
