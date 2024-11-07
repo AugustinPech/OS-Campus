@@ -6,9 +6,9 @@ foreach ($tier in $tiers) {
     New-ADGroup -Name "$tier Developers" -SamAccountName "${tier}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$tier Developers" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Developers"
     New-ADGroup -Name "$tier Users" -SamAccountName "${tier}Users" -GroupCategory Security -GroupScope Global -DisplayName "$tier Users" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Users"
     
+    $admins=Get-ADGroup -Filter { Name -eq "$tier Admins" }
     $users=Get-ADGroup -Filter { Name -eq "$tier Users" }
     $devs=Get-ADGroup -Filter { Name -eq "$tier Developers" }
-    $admins=Get-ADGroup -Filter { Name -eq "$tier Admins" }
     echo $tier , $admins , $devs , $users
 
     $password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
@@ -35,7 +35,7 @@ foreach ($tier in $tiers) {
 
         # Ajouter l'utilisateur au groupe correspondant
         switch ($role) {
-            "Admin" { Add-ADGroupMember -Identity $admins -Members $username }
+            "Admin" { Add-ADGroupMember -Identity "$tier Admins" -Members $username }
             "Developer" { Add-ADGroupMember -Identity $devs -Members $username }
             "User" { Add-ADGroupMember -Identity $users -Members $username }
         }
