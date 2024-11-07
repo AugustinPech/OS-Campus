@@ -1,128 +1,76 @@
+$tiers = "T0", "T1", "T2"
+$sites= "Site1", "Site2", "Site3"
 # Définir les groupes
-New-ADGroup -Name "T0 Admins" -SamAccountName T0Admins -GroupCategory Security -GroupScope Global -DisplayName "T0 Administrators" -Path "OU=Groups,OU=T0,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-New-ADGroup -Name "T0 Developers" -SamAccountName T0Developers -GroupCategory Security -GroupScope Global -DisplayName "T0 Developers" -Path "OU=Groups,OU=T0,DC=devops,DC=forest" -Description "Members of this group are Developers"
-New-ADGroup -Name "T0 Users" -SamAccountName T0Users -GroupCategory Security -GroupScope Global -DisplayName "T0 Users" -Path "OU=Groups,OU=T0,DC=devops,DC=forest" -Description "Members of this group are Users"
+foreach ($tier in $tiers) {
+    New-ADGroup -Name "$tier Admins" -SamAccountName "${tier}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$tier Administrators" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Administrators"
+    New-ADGroup -Name "$tier Developers" -SamAccountName "${tier}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$tier Developers" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Developers"
+    New-ADGroup -Name "$tier Users" -SamAccountName "${tier}Users" -GroupCategory Security -GroupScope Global -DisplayName "$tier Users" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Users"
+    $password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
+    # Créer les utilisateurs pour $tier
+    for ($i = 1; $i -le 10; $i++) {
+        # Définir les attributs des utilisateurs
+        $username = "User$tier-$i"
+        $role = if ($i -le 2) { "Admin" } elseif ($i -le 5) { "Developer" } else { "User" }
+        $userAttributes = @{
+            Name = $username
+            GivenName = "FirstName$tier$i"
+            Surname = "LastName$tier$i"
+            SamAccountName = $username
+            UserPrincipalName = "$username@devops.forest"
+            Path = "OU=Users,OU=$tier,DC=devops,DC=forest"
+            AccountPassword = $password
+            Enabled = $true
+            PasswordNeverExpires = $false
+            ChangePasswordAtLogon = $true
+        }
 
-New-ADGroup -Name "T1 Admins" -SamAccountName T1Admins -GroupCategory Security -GroupScope Global -DisplayName "T1 Administrators" -Path "OU=Groups,OU=T1,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-New-ADGroup -Name "T1 Developers" -SamAccountName T1Developers -GroupCategory Security -GroupScope Global -DisplayName "T1 Developers" -Path "OU=Groups,OU=T1,DC=devops,DC=forest" -Description "Members of this group are Developers"
-New-ADGroup -Name "T1 Users" -SamAccountName T1Users -GroupCategory Security -GroupScope Global -DisplayName "T1 Users" -Path "OU=Groups,OU=T1,DC=devops,DC=forest" -Description "Members of this group are Users"
+        # Créer l'utilisateur
+        New-ADUser @userAttributes
 
-New-ADGroup -Name "T2 Admins" -SamAccountName T2Admins -GroupCategory Security -GroupScope Global -DisplayName "T2 Administrators" -Path "OU=Groups,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-New-ADGroup -Name "T2 Developers" -SamAccountName T2Developers -GroupCategory Security -GroupScope Global -DisplayName "T2 Developers" -Path "OU=Groups,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest" -Description "Members of this group are Developers"
-New-ADGroup -Name "T2 Users" -SamAccountName T2Users -GroupCategory Security -GroupScope Global -DisplayName "T2 Users" -Path "OU=Groups,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest" -Description "Members of this group are Users"
+        # Ajouter l'utilisateur au groupe correspondant
+        switch ($role) {
+            "Admin" { Add-ADGroupMember -Identity "Admins" -Members $username }
+            "Developer" { Add-ADGroupMember -Identity "Developers" -Members $username }
+            "User" { Add-ADGroupMember -Identity "Users" -Members $username }
+        }
 
-# Créer les utilisateurs pour T0
-$password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
-for ($i = 1; $i -le 10; $i++) {
-    # Définir les attributs des utilisateurs
-    $username = "User0$i"
-    $role = if ($i -le 2) { "Admin" } elseif ($i -le 5) { "Developer" } else { "User" }
-    $userAttributes = @{
-        Name = $username
-        GivenName = "FirstName0$i"
-        Surname = "LastName0$i"
-        SamAccountName = $username
-        UserPrincipalName = "$username@devops.forest"
-        Path = "OU=Users,OU=T0,DC=devops,DC=forest"
-        AccountPassword = $password
-        Enabled = $true
-        PasswordNeverExpires = $false
-        ChangePasswordAtLogon = $true
-    }
-
-    # Créer l'utilisateur
-    New-ADUser @userAttributes
-
-    # Ajouter l'utilisateur au groupe correspondant
-    switch ($role) {
-        "Admin" { Add-ADGroupMember -Identity "Admins" -Members $username }
-        "Developer" { Add-ADGroupMember -Identity "Developers" -Members $username }
-        "User" { Add-ADGroupMember -Identity "Users" -Members $username }
-    }
-
-    Write-Host "User $username with role $role created and added to the appropriate group."
-}
-
-# Créer les utilisateurs pour T1
-$password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
-for ($i = 1; $i -le 10; $i++) {
-    # Définir les attributs des utilisateurs
-    $username = "User1$i"
-    $role = if ($i -le 2) { "Admin" } elseif ($i -le 5) { "Developer" } else { "User" }
-    $userAttributes = @{
-        Name = $username
-        GivenName = "FirstName0$i"
-        Surname = "LastName0$i"
-        SamAccountName = $username
-        UserPrincipalName = "$username@devops.forest"
-        Path = "OU=Users,OU=T1,DC=devops,DC=forest"
-        AccountPassword = $password
-        Enabled = $true
-        PasswordNeverExpires = $false
-        ChangePasswordAtLogon = $true
-    }
-
-    # Créer l'utilisateur
-    New-ADUser @userAttributes
-
-    # Ajouter l'utilisateur au groupe correspondant
-    switch ($role) {
-        "Admin" { Add-ADGroupMember -Identity "Admins" -Members $username }
-        "Developer" { Add-ADGroupMember -Identity "Developers" -Members $username }
-        "User" { Add-ADGroupMember -Identity "Users" -Members $username }
-    }
-
-    Write-Host "User $username with role $role created and added to the appropriate group."
-}
-
-# Créer les utilisateurs pour T2/Sites/Site1
-$password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
-for ($i = 1; $i -le 10; $i++) {
-    # Définir les attributs des utilisateurs
-    $username = "User2$i"
-    $role = if ($i -le 2) { "Admin" } elseif ($i -le 5) { "Developer" } else { "User" }
-    $userAttributes = @{
-        Name = $username
-        GivenName = "FirstName0$i"
-        Surname = "LastName0$i"
-        SamAccountName = $username
-        UserPrincipalName = "$username@devops.forest"
-        Path = "OU=Users,OU=Site1,OU=Sites,OU=T2,DC=devops,DC=forest"
-        AccountPassword = $password
-        Enabled = $true
-        PasswordNeverExpires = $false
-        ChangePasswordAtLogon = $true
-    }
-
-    # Créer l'utilisateur
-    New-ADUser @userAttributes
-
-    # Ajouter l'utilisateur au groupe correspondant
-    switch ($role) {
-        "Admin" { Add-ADGroupMember -Identity "Admins" -Members $username }
-        "Developer" { Add-ADGroupMember -Identity "Developers" -Members $username }
-        "User" { Add-ADGroupMember -Identity "Users" -Members $username }
-    }
-
-    Write-Host "User $username with role $role created and added to the appropriate group."
-}
-
-
-# Activer ou désactiver un compte spécifique
-function Set-UserStatus {
-    param (
-        [string]$Username,
-        [bool]$Enable
-    )
-    if ($Enable) {
-        Enable-ADAccount -Identity $Username
-        Write-Host "User $Username has been enabled."
-    } else {
-        Disable-ADAccount -Identity $Username
-        Write-Host "User $Username has been disabled."
+        Write-Host "User $username with role $role created and added to the appropriate group."
     }
 }
 
-# Exemple d'activation ou désactivation
-Set-UserStatus -Username "User09" -Enable $false  # Désactiver User3
-Set-UserStatus -Username "User19" -Enable $true   # Activer User4
+foreach ($site in $sites) {
+    New-ADGroup -Name "$site Admins" -SamAccountName "${site}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$site Administrators" -Path "OU=Groups,OU=$site,DC=devops,DC=forest" -Description "Members of this group are Administrators"
+    New-ADGroup -Name "$site Developers" -SamAccountName "${site}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$site Developers" -Path "OU=Groups,OU=$site,DC=devops,DC=forest" -Description "Members of this group are Developers"
+    New-ADGroup -Name "$site Users" -SamAccountName "${site}Users" -GroupCategory Security -GroupScope Global -DisplayName "$site Users" -Path "OU=Groups,OU=$site,DC=devops,DC=forest" -Description "Members of this group are Users"
+    $password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
+    # Créer les utilisateurs pour $site
+    for ($i = 1; $i -le 10; $i++) {
+        # Définir les attributs des utilisateurs
+        $username = "User$site-$i"
+        $role = if ($i -le 2) { "Admin" } elseif ($i -le 5) { "Developer" } else { "User" }
+        $userAttributes = @{
+            Name = $username
+            GivenName = "FirstName$site$i"
+            Surname = "LastName$site$i"
+            SamAccountName = $username
+            UserPrincipalName = "$username@devops.forest"
+            Path = "OU=Users,OU=$site,DC=devops,DC=forest"
+            AccountPassword = $password
+            Enabled = $true
+            PasswordNeverExpires = $false
+            ChangePasswordAtLogon = $true
+        }
+
+        # Créer l'utilisateur
+        New-ADUser @userAttributes
+
+        # Ajouter l'utilisateur au groupe correspondant
+        switch ($role) {
+            "Admin" { Add-ADGroupMember -Identity "Admins" -Members $username }
+            "Developer" { Add-ADGroupMember -Identity "Developers" -Members $username }
+            "User" { Add-ADGroupMember -Identity "Users" -Members $username }
+        }
+
+        Write-Host "User $username with role $role created and added to the appropriate group."
+    }
+}
