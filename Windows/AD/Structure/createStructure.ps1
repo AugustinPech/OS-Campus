@@ -24,7 +24,6 @@ foreach ($item in $structure) {
             Create-Organizational-Unit -name $directory -OU "OU=$item,DC=devops,DC=forest"
         }
     } elseif ($item -eq "Sites") {
-        Create-Organizational-Unit -name "Sites" -OU "DC=devops,DC=forest"
         foreach ($site in $sites) {
             Create-Organizational-Unit -name $site -OU "OU=Sites,DC=devops,DC=forest"
             foreach ($element in $each_site) {
