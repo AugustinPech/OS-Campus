@@ -5,8 +5,6 @@ foreach ($tier in $tiers) {
     New-ADGroup -Name "$tier Admins" -SamAccountName "${tier}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$tier Administrators" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Administrators"
     New-ADGroup -Name "$tier Developers" -SamAccountName "${tier}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$tier Developers" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Developers"
     New-ADGroup -Name "$tier Users" -SamAccountName "${tier}Users" -GroupCategory Security -GroupScope Global -DisplayName "$tier Users" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Users"
-    
-    Start-Sleep -Seconds 10
 
     $string="$tier Admins"
     $admins=Get-ADGroup -Filter { Name -eq $string }
