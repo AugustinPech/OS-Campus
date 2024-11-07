@@ -33,9 +33,9 @@ foreach ($tier in $tiers) {
 
         # Ajouter l'utilisateur au groupe correspondant
         switch ($role) {
-            "Admin" { Add-ADGroupMember -Identity $admins.DistinguishedName -Members $username }
-            "Developer" { Add-ADGroupMember -Identity $devs.DistinguishedName -Members $username }
-            "User" { Add-ADGroupMember -Identity $users.DistinguishedName -Members $username }
+            "Admin" { Add-ADGroupMember -Identity $admins -Members $username }
+            "Developer" { Add-ADGroupMember -Identity $devs -Members $username }
+            "User" { Add-ADGroupMember -Identity $users -Members $username }
         }
 
         Write-Host "User $username with role $role created and added to the appropriate group."
