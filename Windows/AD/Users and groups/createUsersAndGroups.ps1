@@ -29,9 +29,9 @@ foreach ($tier in $tiers) {
 
         # Ajouter l'utilisateur au groupe correspondant
         switch ($role) {
-            "Admin" { Add-ADGroupMember -Identity "Admins" -Members $username }
-            "Developer" { Add-ADGroupMember -Identity "Developers" -Members $username }
-            "User" { Add-ADGroupMember -Identity "Users" -Members $username }
+            "Admin" { Add-ADGroupMember -Identity "$tier Admins" -Members $username }
+            "Developer" { Add-ADGroupMember -Identity "$tier Developers" -Members $username }
+            "User" { Add-ADGroupMember -Identity "$tier Users" -Members $username }
         }
 
         Write-Host "User $username with role $role created and added to the appropriate group."
@@ -66,9 +66,9 @@ foreach ($site in $sites) {
 
         # Ajouter l'utilisateur au groupe correspondant
         switch ($role) {
-            "Admin" { Add-ADGroupMember -Identity "Admins" -Members $username }
-            "Developer" { Add-ADGroupMember -Identity "Developers" -Members $username }
-            "User" { Add-ADGroupMember -Identity "Users" -Members $username }
+            "Admin" { Add-ADGroupMember -Identity "$site Admins" -Members $username }
+            "Developer" { Add-ADGroupMember -Identity "$site Developers" -Members $username }
+            "User" { Add-ADGroupMember -Identity "$site Users" -Members $username }
         }
 
         Write-Host "User $username with role $role created and added to the appropriate group."
