@@ -8,7 +8,7 @@ function CleanUp {
         Remove-ADUser -Identity $username -Confirm:$false
         Write-Host "User $username has been removed."
     }
-    $groups = Get-ADGroup -Filter 'Name -like "T[0-2]*"' 
+    $groups = Get-ADGroup -Filter 'Name -like "T0*" -or Name -like "T1*" -or Name -like "T2*"'
     # Suppression des groupes
     foreach ($group in $groups) {
         Remove-ADGroup -Identity $group.DistinguishedName -Confirm:$false
