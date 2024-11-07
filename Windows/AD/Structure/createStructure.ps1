@@ -17,16 +17,20 @@ function Create-Organizational-Unit {
 }
 
 foreach ($item in $structure) {
+    echo $item
     Create-Organizational-Unit -name $item
 
     if ($item -like "T[0-2]") {
         foreach ($directory in $each_tier) {
+            echo $item , $directory
             Create-Organizational-Unit -name $directory -OU "OU=$item,DC=devops,DC=forest"
         }
     } elseif ($item -eq "Sites") {
         foreach ($site in $sites) {
+            echo $item , $site
             Create-Organizational-Unit -name $site -OU "OU=Sites,DC=devops,DC=forest"
             foreach ($element in $each_site) {
+                echo $item, $site, $element
                 Create-Organizational-Unit -name $element -OU "OU=$site,OU=Sites,DC=devops,DC=forest"
             }
         }
