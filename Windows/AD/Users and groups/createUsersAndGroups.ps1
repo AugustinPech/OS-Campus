@@ -2,10 +2,13 @@ $tiers = "T0", "T1", "T2"
 $sites= "Site1", "Site2", "Site3"
 # Définir les groupes
 foreach ($tier in $tiers) {
-    $admins=New-ADGroup -Name "$tier Admins" -SamAccountName "${tier}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$tier Administrators" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Administrators"
+    New-ADGroup -Name "$tier Admins" -SamAccountName "${tier}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$tier Administrators" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Administrators"
+    $admins=Get-ADGroup -Filter { Name -eq "$tier Admins" }
     echo "-- $admins"
-    $devs=New-ADGroup -Name "$tier Developers" -SamAccountName "${tier}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$tier Developers" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Developers"
-    $users=New-ADGroup -Name "$tier Users" -SamAccountName "${tier}Users" -GroupCategory Security -GroupScope Global -DisplayName "$tier Users" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Users"
+    New-ADGroup -Name "$tier Developers" -SamAccountName "${tier}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$tier Developers" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Developers"
+    $devs=Get-ADGroup -Filter { Name -eq "$tier Developers" }
+    New-ADGroup -Name "$tier Users" -SamAccountName "${tier}Users" -GroupCategory Security -GroupScope Global -DisplayName "$tier Users" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Users"
+    $users=Get-ADGroup -Filter { Name -eq "$tier Users" }
     $password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
     # Créer les utilisateurs pour $tier
     for ($i = 1; $i -le 10; $i++) {
