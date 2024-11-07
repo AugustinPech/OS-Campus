@@ -2,9 +2,9 @@ $tiers = "T0", "T1", "T2"
 $sites= "Site1", "Site2", "Site3"
 # Définir les groupes
 foreach ($tier in $tiers) {
-    New-ADGroup -Name "$tier Admins" -SamAccountName "${tier}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$tier Administrators" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-    New-ADGroup -Name "$tier Developers" -SamAccountName "${tier}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$tier Developers" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Developers"
-    New-ADGroup -Name "$tier Users" -SamAccountName "${tier}Users" -GroupCategory Security -GroupScope Global -DisplayName "$tier Users" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Users"
+    $admins=New-ADGroup -Name "$tier Admins" -SamAccountName "${tier}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$tier Administrators" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Administrators"
+    $devs=New-ADGroup -Name "$tier Developers" -SamAccountName "${tier}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$tier Developers" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Developers"
+    $users=New-ADGroup -Name "$tier Users" -SamAccountName "${tier}Users" -GroupCategory Security -GroupScope Global -DisplayName "$tier Users" -Path "OU=Groups,OU=$tier,DC=devops,DC=forest" -Description "Members of this group are Users"
     $password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
     # Créer les utilisateurs pour $tier
     for ($i = 1; $i -le 10; $i++) {
@@ -29,9 +29,9 @@ foreach ($tier in $tiers) {
 
         # Ajouter l'utilisateur au groupe correspondant
         switch ($role) {
-            "Admin" { Add-ADGroupMember -Identity "$tier Admins" -Members $username }
-            "Developer" { Add-ADGroupMember -Identity "$tier Developers" -Members $username }
-            "User" { Add-ADGroupMember -Identity "$tier Users" -Members $username }
+            "Admin" { Add-ADGroupMember -Identity $admins.DistinguishedName -Members $username }
+            "Developer" { Add-ADGroupMember -Identity $devs.DistinguishedName -Members $username }
+            "User" { Add-ADGroupMember -Identity $users.DistinguishedName -Members $username }
         }
 
         Write-Host "User $username with role $role created and added to the appropriate group."
@@ -39,9 +39,9 @@ foreach ($tier in $tiers) {
 }
 
 foreach ($site in $sites) {
-    New-ADGroup -Name "$site Admins" -SamAccountName "${site}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$site Administrators" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Administrators"
-    New-ADGroup -Name "$site Developers" -SamAccountName "${site}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$site Developers" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Developers"
-    New-ADGroup -Name "$site Users" -SamAccountName "${site}Users" -GroupCategory Security -GroupScope Global -DisplayName "$site Users" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Users"
+    $admins=New-ADGroup -Name "$site Admins" -SamAccountName "${site}Admins" -GroupCategory Security -GroupScope Global -DisplayName "$site Administrators" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Administrators"
+    $devs=New-ADGroup -Name "$site Developers" -SamAccountName "${site}Developers" -GroupCategory Security -GroupScope Global -DisplayName "$site Developers" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Developers"
+    $users=New-ADGroup -Name "$site Users" -SamAccountName "${site}Users" -GroupCategory Security -GroupScope Global -DisplayName "$site Users" -Path "OU=Groups,OU=$site,OU=Sites,DC=devops,DC=forest" -Description "Members of this group are Users"
     $password = (ConvertTo-SecureString -AsPlainText "P@ssword123" -Force)
     # Créer les utilisateurs pour $site
     for ($i = 1; $i -le 10; $i++) {
@@ -66,9 +66,9 @@ foreach ($site in $sites) {
 
         # Ajouter l'utilisateur au groupe correspondant
         switch ($role) {
-            "Admin" { Add-ADGroupMember -Identity "$site Admins" -Members $username }
-            "Developer" { Add-ADGroupMember -Identity "$site Developers" -Members $username }
-            "User" { Add-ADGroupMember -Identity "$site Users" -Members $username }
+            "Admin" { Add-ADGroupMember -Identity $admins.DistinguishedName -Members $username }
+            "Developer" { Add-ADGroupMember -Identity $devs.DistinguishedName -Members $username }
+            "User" { Add-ADGroupMember -Identity $users.DistinguishedName -Members $username }
         }
 
         Write-Host "User $username with role $role created and added to the appropriate group."
